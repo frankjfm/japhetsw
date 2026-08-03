@@ -1,0 +1,39 @@
+/* theme-badges.css
+   Accessible badge foreground tokens for Bright and Dark themes
+   Generated for frankjfm/japhetsw
+*/
+
+:root{
+  --bg: #FFFFFF;
+  --text-heading: #06183A;
+
+  --success: #0AA55A;
+  --warning: #E87F00;
+  --danger:  #C52828;
+
+  /* Accessible badge foregrounds for Bright theme */
+  --badge-fore-success: #06183A; /* dark (text-heading) */
+  --badge-fore-warning: #06183A; /* dark (text-heading) */
+  --badge-fore-danger:  #FFFFFF; /* white */
+}
+
+/* Dark theme overrides */
+[data-theme="dark"]{
+  --bg: #0B1220;
+  --text-heading: #FFFFFF;
+
+  --success: #2BD47A;
+  --warning: #FFB866;
+  --danger:  #FF5C7A;
+
+  /* Accessible badge foregrounds for Dark theme */
+  --badge-fore-success: #0B1220; /* var(--bg) */
+  --badge-fore-warning: #0B1220; /* var(--bg) */
+  --badge-fore-danger:  #0B1220; /* var(--bg) */
+}
+
+/* Example badge rules using tokens */
+.badge { padding: .25rem .5rem; border-radius: .25rem; font-weight:600; font-size:.75rem; display:inline-block; }
+.badge--success { background: var(--success); color: var(--badge-fore-success); }
+.badge--warning { background: var(--warning); color: var(--badge-fore-warning); }
+.badge--danger  { background: var(--danger);  color: var(--badge-fore-danger); }
