@@ -1,0 +1,1 @@
+Moved images from public_html/images into /images/ for cleaner paths. Original files left as small notices in public_html/images.
