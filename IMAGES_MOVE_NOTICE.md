@@ -1,1 +1,1 @@
-Moved images from public_html/images into /images/ for cleaner paths. Original files left as small notices in public_html/images.
+Updated pages to use /images/* paths and wired contact form to Netlify Forms. Removed duplicate public_html images by replacing them with notices.
