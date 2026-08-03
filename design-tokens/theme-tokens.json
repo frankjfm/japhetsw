@@ -1,0 +1,36 @@
+{
+  "theme": {
+    "bright": {
+      "bg": "#FFFFFF",
+      "surface": "#FFFFFF",
+      "text-heading": "#553900",
+      "text-primary": "#6B4C00",
+      "text-secondary": "#8C6A1A",
+      "text-muted": "#B99C4D",
+      "accent": "#7F5A00",
+      "code-text": "#4A3B00",
+      "success": "#0AA55A",
+      "warning": "#E87F00",
+      "danger": "#C52828",
+      "badge-fore-success": "#06183A",
+      "badge-fore-warning": "#06183A",
+      "badge-fore-danger": "#FFFFFF"
+    },
+    "dark": {
+      "bg": "#0B1220",
+      "surface": "#0F1724",
+      "text-heading": "#FFD700",
+      "text-primary": "#FFD966",
+      "text-secondary": "#FFC857",
+      "text-muted": "#E6C57A",
+      "accent": "#FFE08A",
+      "code-text": "#FFF1C8",
+      "success": "#2BD47A",
+      "warning": "#FFB866",
+      "danger": "#FF5C7A",
+      "badge-fore-success": "#0B1220",
+      "badge-fore-warning": "#0B1220",
+      "badge-fore-danger": "#0B1220"
+    }
+  }
+}
