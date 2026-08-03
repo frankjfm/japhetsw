@@ -1,97 +1,44 @@
-/* js/script.js
-   Vanilla JS for Japhet's Wings site
-   Features: mobile nav toggle, dropdown, sticky header, scroll reveal, counters, hero network animation, smooth scroll, current year
-*/
+/* js/script.js - enhanced interactions: theme toggle, modal, portfolio filters, contact form */
 (function(){
   'use strict';
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Mobile nav
+  // Nav toggle for mobile
   const navToggle = document.querySelector('.nav-toggle');
   const navList = document.getElementById('primary-menu');
-  const siteHeader = document.getElementById('site-header');
   if(navToggle){
     navToggle.addEventListener('click', ()=>{
       const expanded = navToggle.getAttribute('aria-expanded') === 'true';
       navToggle.setAttribute('aria-expanded', String(!expanded));
-      navList.classList.toggle('show');
-      navToggle.querySelector('.hamburger').classList.toggle('open');
-    });
-
-    // Close on outside click
-    document.addEventListener('click', (e)=>{
-      if(!navList.contains(e.target) && !navToggle.contains(e.target)){
-        navList.classList.remove('show');
-        navToggle.setAttribute('aria-expanded','false');
-      }
+      navList.style.display = expanded ? 'none' : 'flex';
     });
   }
 
-  // Dropdown
-  document.querySelectorAll('.has-dropdown').forEach((item)=>{
-    const btn = item.querySelector('.dropdown-toggle');
-    const menu = item.querySelector('.dropdown');
-    btn.addEventListener('click',(e)=>{
-      const open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!open));
-      item.classList.toggle('open');
+  // Theme toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  function applySavedTheme(){
+    const t = localStorage.getItem('theme');
+    if(t === 'light') document.documentElement.classList.add('light');
+  }
+  applySavedTheme();
+  if(themeToggle){
+    themeToggle.addEventListener('click', ()=>{
+      document.documentElement.classList.toggle('light');
+      const isLight = document.documentElement.classList.contains('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      themeToggle.textContent = isLight ? '☀️' : '🌙';
     });
-    // keyboard support
-    btn.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape'){
-        item.classList.remove('open');
-        btn.setAttribute('aria-expanded','false');
-        btn.focus();
-      }
-    });
-  });
-
-  // Sticky header shadow on scroll
-  const headerObserver = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(!entry.isIntersecting) siteHeader.classList.add('scrolled');
-      else siteHeader.classList.remove('scrolled');
-    });
-  },{root:null,threshold:0,rootMargin:'-80px 0px 0px 0px'});
-  headerObserver.observe(document.querySelector('#hero'));
-
-  // Smooth anchor scrolling
-  document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
-    anchor.addEventListener('click', function(e){
-      const href = this.getAttribute('href');
-      if(href === '#') return;
-      if(href.startsWith('#')){
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if(target){
-          const top = target.getBoundingClientRect().top + window.pageYOffset - 70;
-          window.scrollTo({top,behavior: prefersReducedMotion ? 'auto' : 'smooth'});
-          // close mobile menu after click
-          if(navList.classList.contains('show')){
-            navList.classList.remove('show');
-            navToggle.setAttribute('aria-expanded','false');
-          }
-        }
-      }
-    });
-  });
-
-  // Scroll reveal
-  const revealEls = document.querySelectorAll('.reveal');
-  if(revealEls.length){
-    const observer = new IntersectionObserver((entries, obs)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add('visible');
-          obs.unobserve(entry.target);
-        }
-      });
-    },{threshold:0.12});
-    revealEls.forEach(el=>observer.observe(el));
   }
 
-  // Animated counters
+  // Active nav link
+  document.querySelectorAll('.nav-list a').forEach(a=>{
+    if(location.pathname.endsWith(a.getAttribute('href')) || (location.pathname === '/' && a.getAttribute('href').endsWith('index.html'))){
+      a.setAttribute('aria-current','page');
+    }
+  });
+
+  // Reveal / counters
   const counters = document.querySelectorAll('.number');
   if(counters.length){
     const counterObserver = new IntersectionObserver((entries, obs)=>{
@@ -100,7 +47,7 @@
           const el = entry.target;
           const target = Number(el.dataset.target) || 0;
           let start = 0;
-          const duration = 1500;
+          const duration = 1200;
           const startTime = performance.now();
           function step(now){
             const progress = Math.min((now - startTime) / duration, 1);
@@ -117,90 +64,54 @@
     counters.forEach(c=>counterObserver.observe(c));
   }
 
-  // Current year
-  const yearEl = document.getElementById('current-year');
-  if(yearEl) yearEl.textContent = new Date().getFullYear();
-
-  // Hero network canvas animation
-  function setupHeroCanvas(){
-    const container = document.querySelector('.hero-canvas');
-    if(!container) return;
-    const canvas = document.createElement('canvas');
-    container.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-
-    let width, height, nodes;
-    function resize(){
-      width = container.clientWidth;
-      height = container.clientHeight;
-      canvas.width = width * devicePixelRatio;
-      canvas.height = height * devicePixelRatio;
-      canvas.style.width = width + 'px';
-      canvas.style.height = height + 'px';
-      ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-    }
-
-    function initNodes(){
-      nodes = [];
-      const count = Math.max(6, Math.floor(width/160));
-      for(let i=0;i<count;i++){
-        nodes.push({
-          x:Math.random()*width,
-          y:Math.random()*height,
-          vx:(Math.random()*1-0.5)*0.4,
-          vy:(Math.random()*1-0.5)*0.4,
-          r:2+Math.random()*3
-        });
-      }
-    }
-
-    function draw(){
-      ctx.clearRect(0,0,width,height);
-      // lines
-      for(let i=0;i<nodes.length;i++){
-        for(let j=i+1;j<nodes.length;j++){
-          const a = nodes[i], b = nodes[j];
-          const dx = a.x-b.x, dy = a.y-b.y;
-          const d = Math.sqrt(dx*dx+dy*dy);
-          if(d<120){
-            ctx.beginPath();
-            ctx.strokeStyle = 'rgba(6,182,212,'+(1 - d/120)*0.12+')';
-            ctx.lineWidth = 1;
-            ctx.moveTo(a.x,a.y);
-            ctx.lineTo(b.x,b.y);
-            ctx.stroke();
-          }
-        }
-      }
-      // nodes
-      nodes.forEach(n=>{
-        ctx.beginPath();
-        const g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*6);
-        g.addColorStop(0,'rgba(6,182,212,0.9)');
-        g.addColorStop(0.4,'rgba(37,99,235,0.35)');
-        g.addColorStop(1,'rgba(6,182,212,0)');
-        ctx.fillStyle = g;
-        ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
-        ctx.fill();
-      });
-    }
-
-    function step(){
-      for(let n of nodes){
-        n.x += n.vx; n.y += n.vy;
-        if(n.x<0||n.x>width) n.vx *= -1;
-        if(n.y<0||n.y>height) n.vy *= -1;
-      }
-      draw();
-      if(!prefersReducedMotion) requestAnimationFrame(step);
-    }
-
-    window.addEventListener('resize', ()=>{resize();initNodes();});
-    resize();initNodes();step();
+  // Project modal
+  const modal = document.getElementById('project-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDesc = document.getElementById('modal-desc');
+  function openModal(title,desc){
+    if(!modal) return;
+    modal.setAttribute('aria-hidden','false');
+    modalTitle.textContent = title;
+    modalDesc.textContent = desc;
   }
-  setupHeroCanvas();
+  function closeModal(){
+    if(!modal) return;
+    modal.setAttribute('aria-hidden','true');
+  }
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.open-project');
+    if(btn){
+      openModal(btn.dataset.title, btn.dataset.desc);
+    }
+    if(e.target.closest('.modal-close') || (e.target === modal)) closeModal();
+  });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
 
-  // Mark core sections with reveal class for animation
-  document.querySelectorAll('section').forEach(sec=>sec.classList.add('reveal'));
+  // Portfolio filters
+  document.querySelectorAll('.filter').forEach(f=>{
+    f.addEventListener('click', ()=>{
+      document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
+      f.classList.add('active');
+      const filter = f.dataset.filter;
+      document.querySelectorAll('.project').forEach(p=>{
+        if(filter === 'all' || p.dataset.category === filter) p.style.display = '';
+        else p.style.display = 'none';
+      });
+    });
+  });
+
+  // Contact form (fake submit)
+  const form = document.getElementById('contact-form');
+  if(form){
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const status = document.getElementById('form-status');
+      status.textContent = 'Sending…';
+      setTimeout(()=>{
+        status.textContent = 'Thanks — your message has been received. We will reply soon.';
+        form.reset();
+      },1000);
+    });
+  }
 
 })();

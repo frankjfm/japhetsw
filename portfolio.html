@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Portfolio — Japhet's Wings projects.">
+  <title>Japhet's Wings — Portfolio</title>
+
+  <link rel="icon" href="/public_html/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <div class="brand"><a href="/index.html"><img src="/public_html/images/logo.svg" alt="Logo" class="logo" /></a></div>
+      <nav class="nav" aria-label="Primary"><ul class="nav-list" id="primary-menu"><li><a href="/index.html">Home</a></li><li><a href="/about.html">About</a></li><li><a href="/portfolio.html" aria-current="page">Portfolio</a></li><li><a href="/contact.html">Contact</a></li></ul></nav>
+      <div class="header-cta"><a href="/contact.html" class="btn btn-primary">Start a Project</a></div>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="section">
+      <header class="section-header"><h1>Portfolio</h1><p class="muted">Filter projects by category.</p></header>
+      <div class="filters">
+        <button class="filter active" data-filter="all">All</button>
+        <button class="filter" data-filter="ai">AI</button>
+        <button class="filter" data-filter="fintech">FinTech</button>
+        <button class="filter" data-filter="blockchain">Blockchain</button>
+      </div>
+
+      <div class="portfolio-grid">
+        <article class="project" data-category="ai">
+          <img src="/public_html/images/favicon.svg" alt="project" />
+          <div class="project-body"><h4>AI Insights</h4><p class="muted">Predictive analytics platform.</p><button class="btn btn-ghost open-project" data-title="AI Insights" data-desc="Analytics and ML pipelines for enterprise decisioning.">Details</button></div>
+        </article>
+
+        <article class="project" data-category="fintech">
+          <img src="/public_html/images/favicon.svg" alt="project" />
+          <div class="project-body"><h4>Smart Payments</h4><p class="muted">Payments and wallet integration.</p><button class="btn btn-ghost open-project" data-title="Smart Payments" data-desc="Payments platform for cross-border remittances and settlement.">Details</button></div>
+        </article>
+
+        <article class="project" data-category="blockchain">
+          <img src="/public_html/images/favicon.svg" alt="project" />
+          <div class="project-body"><h4>Supply Chain Ledger</h4><p class="muted">Provenance and traceability.</p><button class="btn btn-ghost open-project" data-title="Supply Chain Ledger" data-desc="Traceability and compliance using smart contracts.">Details</button></div>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-inner"><div class="brand-footer"><img src="/public_html/images/logo.svg" alt="Japhet's Wings logo" class="logo-sm" /><p class="muted">Engineering digital innovation.</p></div></div></footer>
+
+  <!-- Project modal -->
+  <div id="project-modal" class="modal" role="dialog" aria-hidden="true"><div class="modal-panel"><button class="modal-close" aria-label="Close">✕</button><h3 id="modal-title"></h3><p id="modal-desc"></p></div></div>
+
+  <script src="/js/script.js" defer></script>
+</body>
+</html>
