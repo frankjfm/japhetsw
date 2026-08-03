@@ -1,0 +1,42 @@
+/* theme.css
+   Gold-themed text tokens for Bright and Dark modes
+   Generated for frankjfm/japhetsw
+*/
+
+:root{
+  /* Bright theme (background: #FFFFFF) */
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+
+  --text-heading: #553900; /* dark gold heading */
+  --text-primary: #6B4C00; /* main body gold */
+  --text-secondary: #8C6A1A; /* label / meta */
+  --text-muted: #B99C4D; /* decorative - may be below AA on white */
+  --accent: #7F5A00; /* links / emphasis */
+  --code-text: #4A3B00;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"]{
+  --bg: #0B1220;
+  --surface: #0F1724;
+
+  --text-heading: #FFD700; /* bright gold heading */
+  --text-primary: #FFD966; /* main body gold */
+  --text-secondary: #FFC857; /* label / meta */
+  --text-muted: #E6C57A; /* muted gold */
+  --accent: #FFE08A; /* links / emphasis */
+  --code-text: #FFF1C8;
+}
+
+/* Example usage */
+body { background: var(--bg); color: var(--text-primary); font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+h1,h2,h3 { color: var(--text-heading); }
+a { color: var(--accent); text-decoration: underline; }
+.small { color: var(--text-secondary); }
+.muted { color: var(--text-muted); }
+.code { color: var(--code-text); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono"; }
+
+/* Badge foreground helper (default for bright theme) */
+:root{ --badge-fore-on-light: var(--text-heading); }
+[data-theme="dark"]{ --badge-fore-on-light: var(--bg); }
